@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>브랜드 목록</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container">
+  <h1 class="my-4">브랜드 목록 (회사 ID: <span th:text="${companyId}"></span>)</h1>
+  <a th:href="@{/brands/create(companyId=${companyId})}" class="btn btn-primary mb-3">새 브랜드 만들기</a>
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>브랜드 코드</th>
+      <th>브랜드 이름</th>
+      <th>작업</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="brand : ${brands}">
+      <td th:text="${brand.id}"></td>
+      <td>
+        <input type="text" th:value="${brand.brandCode}" th:name="'code_' + ${brand.id}" class="form-control"/>
+      </td>
+      <td>
+        <input type="text" th:value="${brand.brandName}" th:name="'name_' + ${brand.id}" class="form-control"/>
+      </td>
+      <td>
+        <a th:href="@{/brands/delete/{id}(id=${brand.id}, companyId=${companyId})}" class="btn btn-danger btn-sm">삭제</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <form th:action="@{/brands/update}" method="post">
+    <input type="hidden" th:name="'companyId'" th:value="${companyId}"/>
+    <button type="submit" class="btn btn-success">브랜드 수정</button>
+  </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
